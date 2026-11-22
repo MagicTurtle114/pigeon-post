@@ -124,6 +124,25 @@
 <div id="導覽">← → 換頁</div>
 
 <script>
+/* 手機保險：視窗一變就重算縮放，確保整份簡報在手機上也看得到 */
+(function(){
+  function 排(){
+    var d = document.getElementById('deck');
+    if(!d) return;
+    var w = document.documentElement.clientWidth || window.innerWidth;
+    var h = document.documentElement.clientHeight || window.innerHeight;
+    var s = Math.min(w / 1920, h / 1080);
+    d.style.setProperty('transform', 'scale(' + s + ') translate(-50%, -50%)', 'important');
+  }
+  ['DOMContentLoaded','load','pageshow','resize','orientationchange'].forEach(function(名){
+    window.addEventListener(名, 排);
+  });
+  if (window.visualViewport) { window.visualViewport.addEventListener('resize', 排); }
+  [0, 120, 400, 1000].forEach(function(毫秒){ setTimeout(排, 毫秒); });
+})();
+</script>
+
+<script>
 // ================= 動畫頁的劇本 =================
 // 一個動畫頁一段，名字要跟那一頁的 data-動畫 一樣。時間單位是秒，照分鏡表的時間寫。
 // 只能用下面這些動作，畫面的零件都已經畫好、位置也排好了，不要自己畫新的圖形、不要改座標：
